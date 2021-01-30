@@ -134,7 +134,7 @@
     open: "true", //自动打开浏览器，访问其位置
     },
 
-     "start": "webpack-dev-server" //同时需要在package.json中进行配置& 并且会把打包生成的dist的东西放到内存中
+     "start": "webpack-dev-server" //同时需要在package.json中进行配置& *并且会把打包生成的dist的东西放到内存中*
     ```
     16. 同时支持跨域的代理和端口设置（默认是8000）
     ```
@@ -162,3 +162,41 @@
     })
     }
     ```
+    ---babel //chrome与时俱进可以解析ES6
+    19.
+    { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },//如果js文件在node_modules就不使用该方法，**babel-loader只是打通webpack和babel,它本身不会做语法翻译**
+
+    20. babel/preset-env -》才是将ES6翻译为ES5
+    ```
+     options: { presets: ["@babel/preset-env"] }, //但只是翻译了一部分如map等就无法转换
+    ```
+    21. 所以使用@babel/polyfill
+    ```
+    import "@babel/polyfill"; //放入业务代码顶部
+    ```
+
+    22. //打包后文件过大，所以只想打包涉及到的语法
+    ```
+     options: { presets: [["@babel/preset-env", { useBuiltIns: "usage" }]] },
+    ```
+
+    23. 限定需要打包的浏览器条件 //**babel相关的内容**框架是如何使用babel的
+    ```
+    useBuiltIns: "usage",
+    targets: {chrome: "67",},
+    ```
+
+    24. 之前的方式，如注入promise会通过全局变量进行注入，污染全局环境，因此要换一种打包方式//使用库项目的时候就用该方法？？？
+    ```
+    plugins: [
+            "@babel/plugin-transform-runtime",
+            {
+              corejs: 2,
+              helpers: true,
+              regenerator: true,
+              useESModules: false,
+            },
+          ],
+    ```
+
+    25. 由于babel配置过多，可以把options部分放入.babelrc
