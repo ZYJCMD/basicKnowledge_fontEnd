@@ -19,8 +19,8 @@
 
 ### 核心概念
 
-    ---loader
-    webpack默认知道如何打包JS，但不知道jpg等其他格式的文件，因此需要-》loader
+---loader
+webpack 默认知道如何打包 JS，但不知道 jpg 等其他格式的文件，因此需要-》loader
 
 1. _file-loader 会将文件移动到 dist 目录下_，并改名
 2. 如何保证文件名不被修改-》配置 options:{name:"[name].[ext]"}(属于 placeholder 部分)
@@ -64,18 +64,20 @@
 
 6. postcss-loader 处理添加如 CSS 厂商前缀，需要配置 postcss.config.js 并安装 autoprefixer 插件
 7. ```
-   use: [
-         "style-loader",
-         {
-           loader: "css-loader",
-           options: {
-             importLoaders: 2,
-           },
-         },
-         "sass-loader",
-         "postcss-loader",
-       ], //对于**JS**中的scss文件，会依次调用这几个loader,但是对于scss调用的scss文件，我们也希望它进行以下两种loader的处理，所以要用importLoaders
+    use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 2,
+            },
+          },
+          "sass-loader",
+          "postcss-loader",
+        ],
    ```
+
+   //对于**JS**中的 scss 文件，会依次调用这几个 loader,但是对于 scss 调用的 scss 文件，我们也希望它进行以下两种 loader 的处理，所以要用 importLoaders
 
 8. css-modules：模块化的 css,防止 css 冲突
 
@@ -96,13 +98,12 @@
     ```
 
     由于生成的没有我们想要的 id，故这里可以使用模版
-    ` ``
+
+    ```
     plugins: [
     new HtmlWebpackPlugin({
     template: "src/index.html",
     })],//之后将打包好的文件 bundle.js 注入到模板中
-
-    ```
 
     ```
 
@@ -127,7 +128,7 @@
     },
     ```
 
-    ---sourceMap 是一个映射关系，映射打包好的文件中出错的代码到源代码中去(解决当打包后发现文件出错的问题) 13.
+    ---sourceMap 是一个映射关系，映射打包好的文件中出错的代码到源代码中去(解决当打包后发现文件出错的问题)
 
 13. ```
      devtool: "source-map", //如果是inline-source-map 则生成的.map文件直接写到了打包好的文件中；文件大的时候添加cheap(否则会告诉哪行哪列，耗费性能)
@@ -156,8 +157,10 @@
     open: "true", //自动打开浏览器，访问其位置
     },
 
-     "start": "webpack-dev-server" //同时需要在package.json中进行配置& // **并且会把打包生成的dist的东西放到内存中**
+     "start": "webpack-dev-server" //同时需要在package.json中进行配置&
     ```
+
+    // **并且会把打包生成的 dist 的东西放到内存中**
 
 16. 同时支持跨域的代理和端口设置（默认是 8000）
 
@@ -193,7 +196,13 @@
 
     ---babel //chrome 与时俱进可以解析 ES6
 
-19. { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },//如果 js 文件在 node_modules 就不使用该方法，**babel-loader 只是打通 webpack 和 babel,它本身不会做语法翻译**
+19.
+
+```
+{ test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },//如果 js 文件在 node_modules 就不使用该方法，
+```
+
+**babel-loader 只是打通 webpack 和 babel,它本身不会做语法翻译**
 
 20. _babel/preset-env -》才是将 ES6 翻译为 ES5_
 
@@ -236,7 +245,9 @@
 
 25. 由于 babel 配置过多，可以把 options 部分放入.babelrc
 
-    ---**React 代码的打包** 26. 从下到上执行，从右往左
+    ---**React 代码的打包**
+
+26. 从下到上执行，从右往左
 
     ```
     {
