@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "module": "ES6", //模块引入方式
+    "target": "ES5",
+    "allowJs": true //允许typescript中允许JS模块
+  }
+}
